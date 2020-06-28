@@ -43,13 +43,13 @@ def create_dirs(folder_name, training_ready=False):
         for i in range(len(classes)):
             os.makedirs('%s/%s'%(path ,classes[i]), exist_ok=True)
     else:
-        os.mkdir("./%s"%(folder_name))
+        os.mkdir(path)
         create_dirs(folder_name)
     if training_ready is True:
         # print("We got here!")
-        path_ = "training_zone/" + folder_name
+        path_ = os.path.join(os.getcwd(), "training_zone/"+folder_name)
         # print(path_)
-        os.makedirs('./'+path_+'/', exist_ok = True)
+        os.makedirs(path_, exist_ok = True)
         create_dirs(path_+'/test')
         create_dirs(path_+'/train')
         
@@ -80,7 +80,7 @@ def run(j, folder_name):
     rgbArray[..., 0] = r * 256
     rgbArray[..., 1] = g * 256
     rgbArray[..., 2] = b * 256
-    plt.imsave('./'+folder_name+'/'+"%s/%s_%d.png"%(wave_type, wave_type, j),rgbArray)
+    plt.imsave(os.getcwd()+'/Datasets_Prod/'+folder_name+'/'+"%s/%s_%d.png"%(wave_type, wave_type, j),rgbArray)
 
 
 def moving(folder_name):
