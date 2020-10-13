@@ -106,7 +106,7 @@ def moving(folder_name):
                 print(mod_name, "images moved", count)
 
 def main():
-    folder_name = 'new_hampshire'
+    folder_name = 'New'
     create_dirs(folder_name, training_ready=True)
     pool = multiprocessing.Pool(12)
     training = range(len(X))
