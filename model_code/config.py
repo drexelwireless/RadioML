@@ -9,7 +9,7 @@ channels = 3
 
 save_model_dir = "../model"
 
-dataset_dir = "../data_npy/"
+dataset_dir = "/media/arrowhead/WD21/FINAL/data_npy/train/"
 
 train_img_dir = dataset_dir + "train_img.npy"
 train_lbl_dir = dataset_dir + "train_lbl.npy"
@@ -18,7 +18,6 @@ train_lbl_dir = dataset_dir + "train_lbl.npy"
 
 # choose a network
 model = "resnet18"
-
 # model = "resnet34"
 # model = "resnet50"
 # model = "resnet101"

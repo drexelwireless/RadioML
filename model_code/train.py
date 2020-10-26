@@ -2,8 +2,9 @@ from __future__ import absolute_import, division, print_function
 import tensorflow as tf
 from models.resnet import resnet_18, resnet_34, resnet_50, resnet_101, resnet_152
 import config
-from prepare_data import generate_datasets
+# from prepare_data import generate_datasets
 import math
+import data_loader
 
 
 def get_model():
@@ -31,6 +32,9 @@ if __name__ == '__main__':
 
     # get the original_dataset
     train_dataset, valid_dataset, test_dataset, train_count, valid_count, test_count = generate_datasets()
+    
+    train_dataset = data_loader.train_dataset
+
 
 
     # create model
