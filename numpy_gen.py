@@ -40,6 +40,11 @@ def one_hot_encoding(_lbls):
     encoded[classes.index(_lbls)] = 1
     return encoded
 
+train_img = []
+test_img = []
+test_lbl = []
+test_snr = []
+train_lbl = []
 
 def run(j, folder_name):
     SNR = lbl[j][1]
@@ -76,11 +81,7 @@ def run(j, folder_name):
 
 def main():
     folder_name = 'dataset'
-    train_img = []
-    test_img = []
-    test_lbl = []
-    test_snr = []
-    train_lbl = []
+
 
     #create_dirs(folder_name, training_ready=True)
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
