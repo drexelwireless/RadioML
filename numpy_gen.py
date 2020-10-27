@@ -13,6 +13,7 @@ from functools import partial
 from PIL import Image
 from sklearn.preprocessing import MinMaxScaler
 from pyts.image import GADF, MTF, RecurrencePlots, GASF
+from npy_append_array import NpyAppendArray
 
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -40,12 +41,6 @@ def one_hot_encoding(_lbls):
     return encoded
 
 
-test_img = open("test_img.npy", 'wb')
-test_lbl = open("test_lbl.npy", 'wb')
-test_snr = open("test_snr.npy", 'wb')
-
-train_img = open("train_img.npy", "wb")
-train_lbl = open("train_lbl.npy", "wb")
 
 
 def run(j, folder_name):
@@ -73,18 +68,24 @@ def run(j, folder_name):
     numbr = str(j)
     countr = int(numbr[len(numbr)-3:])
     if countr>800:
-        np.save(test_img, np.array(rgbArray))
-        np.save(test_snr, np.array(SNR))
-        np.save(test_lbl, np.array(one_hot_encoding(wave_type)))
+        test_img.append(rgbArray)
+        test_snr.append(SNR)
+        test_lbl.append(wave_type)
     else:
-        np.save(train_img, np.array(rgbArray))
-        np.save(train_lbl, np.array(one_hot_encoding(wave_type)))
+        train_img.append(rgbArray)
+        train_lbl.append(wave_type)
 
 
 def main():
     folder_name = 'dataset'
+    train_img = []
+    test_img = []
+    test_lbl = []
+    test_snr = []
+    train_lbl = []
+
     #create_dirs(folder_name, training_ready=True)
-    pool = multiprocessing.Pool(12)
+    pool = multiprocessing.Pool(multiprocessing.cpu_count())
     runner = partial(run, folder_name = folder_name)
     count = 0
     for X in range(1000, 221000, 1000):
@@ -96,9 +97,14 @@ def main():
 
         for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-1000, X)), total=1000):
             pass
+    np.save("test_img.npy", test_img)
+    np.save("test_snr.npy", test_snr)
+    np.save("test_lbl.npy", test_lbl)
+    np.save("train_img.npy", train_img)
+    np.save("train_lbl.npy", train_lbl)
+
     pool.close()
     pool.join()
     pool.close()
-
 
 main()
