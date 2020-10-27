@@ -13,7 +13,7 @@ from functools import partial
 from PIL import Image
 from sklearn.preprocessing import MinMaxScaler
 from pyts.image import GADF, MTF, RecurrencePlots, GASF
-from npy_append_array import NpyAppendArray
+
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -39,17 +39,14 @@ def one_hot_encoding(_lbls):
     encoded[classes.index(_lbls)] = 1
     return encoded
 
-a = 'test_img.npy'
-b = 'test_lbl.npy'
-c = 'test_snr.npy'
-d = 'train_img.npy'
-e = 'train_lbl.npy'
 
-test_img = NpyAppendArray(a)
-test_wave = NpyAppendArray(b)
-test_snr = NpyAppendArray(c)
-train_img = NpyAppendArray(d)
-train_lbls = NpyAppendArray(e)
+test_img = open("test_img.npy", 'wb')
+test_lbl = open("test_lbl.npy", 'wb')
+test_snr = open("test_snr.npy", 'wb')
+
+train_img = open("train_img.npy", "wb")
+train_lbl = open("train_lbl.npy", "wb")
+
 
 def run(j, folder_name):
     SNR = lbl[j][1]
@@ -76,12 +73,13 @@ def run(j, folder_name):
     numbr = str(j)
     countr = int(numbr[len(numbr)-3:])
     if countr>800:
-        test_img.append(rgbArray)
-        test_snr.append(np.array([SNR]))
-        test_wave.append(np.array(one_hot_encoding(wave_type)))
+        np.save(test_img, np.array(rgbArray))
+        np.save(test_snr, np.array(SNR))
+        np.save(test_lbl, np.array(one_hot_encoding(wave_type)))
     else:
-        train_img.append(rgbArray) 
-        train_lbls.append(np.array(one_hot_encoding(wave_type))) 
+        np.save(train_img, np.array(rgbArray))
+        np.save(train_lbl, np.array(one_hot_encoding(wave_type)))
+
 
 def main():
     folder_name = 'dataset'
@@ -93,11 +91,11 @@ def main():
         # runner()
         count+=1
         # print(count)
-        for i in tqdm.tqdm(range(X-1000, X)):
-            runner(i)
+        # for i in tqdm.tqdm(range(X-1000, X)):
+        #     runner(i)
 
-        # for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-1000, X)), total=1000):
-        #     pass
+        for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-1000, X)), total=1000):
+            pass
     pool.close()
     pool.join()
     pool.close()
