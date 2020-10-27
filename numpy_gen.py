@@ -91,11 +91,11 @@ def main():
         # runner()
         count+=1
         # print(count)
-        # for i in tqdm.tqdm(range(X-1000, X)):
-        #     runner(i)
+        for i in tqdm.tqdm(range(X-1000, X)):
+            runner(i)
 
-        for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-1000, X)), total=1000):
-            pass
+#         for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-1000, X)), total=1000):
+#             pass
     np.save("test_img.npy", test_img)
     np.save("test_snr.npy", test_snr)
     np.save("test_lbl.npy", test_lbl)
