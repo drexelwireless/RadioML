@@ -41,8 +41,6 @@ def one_hot_encoding(_lbls):
     return encoded
 
 
-
-
 def run(j, folder_name):
     SNR = lbl[j][1]
     wave_type = lbl[j][0]
@@ -57,8 +55,8 @@ def run(j, folder_name):
 
     rgbArray = np.zeros((IMG_SIZE, IMG_SIZE, 3), np.float32)
     
-    r = np.squeeze(encoder1.fit_transform(array))
-    r = (r.reshape(-1, 1)).reshape((2, 128, 128))[0, :] #I
+    a = np.squeeze(encoder1.fit_transform(array))
+    r = (a.reshape(-1, 1)).reshape((2, 128, 128))[0, :] #I
     r = NormalizeData(r)
     
     rgbArray[..., 0] = r
