@@ -21,7 +21,7 @@ def get_model():
     model.build(input_shape=(None, config.image_height, config.image_width, config.channels))
     model.summary()
     return model
-
+tf.debugging.set_log_device_placement(True)
 
 if __name__ == '__main__':
 #     gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 #     logical_gpus = tf.config.experimental.list_logical_devices('GPU')
 #     print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
 
-      tf.debugging.set_log_device_placement(True)
+      
 
       strategy = tf.distribute.MirroredStrategy()
       with strategy.scope():
