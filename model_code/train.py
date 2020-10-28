@@ -1,11 +1,12 @@
 from __future__ import absolute_import, division, print_function
 import tensorflow as tf
-from models.resnet import resnet_18, resnet_34, resnet_50, resnet_101, resnet_152
+from resnet import resnet_18, resnet_34, resnet_50, resnet_101, resnet_152
 import config
 # from prepare_data import generate_datasets
 import math
 import data_loader
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def get_model():
     model = resnet_50()
@@ -22,18 +23,23 @@ def get_model():
     return model
 
 
-if __name__ == '__main__':
-    # GPU settings
+
     gpus = tf.config.experimental.list_physical_devices('GPU')
     if gpus:
-        for gpu in gpus:
-            tf.config.experimental.set_memory_growth(gpu, True)
+	try:
+	    tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
+    	    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+    	    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+  	except RuntimeError as e:
+            print(e)
 
 
     # get the original_dataset
-    train_dataset, valid_dataset, test_dataset, train_count, valid_count, test_count = generate_datasets()
+    #train_dataset, valid_dataset, test_dataset, train_count, valid_count, test_count = generate_datasets()
     
     train_dataset = data_loader.train_dataset
+    valid_dataset = data_loader.valid_dataset
+    #train_count = len(data_loader.train_dataset
 
 
 
