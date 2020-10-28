@@ -25,10 +25,9 @@ def get_model():
 
 if __name__ == '__main__':
     gpus = tf.config.experimental.list_physical_devices('GPU')
-    if gpus:
-                tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
-		logical_gpus = tf.config.experimental.list_logical_devices('GPU')
-		print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+    tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
+    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
 
     # get the original_dataset
     #train_dataset, valid_dataset, test_dataset, train_count, valid_count, test_count = generate_datasets()
