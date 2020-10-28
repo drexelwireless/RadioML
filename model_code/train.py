@@ -23,7 +23,7 @@ def get_model():
     return model
 
 
-
+if __name__ == '__main__':
     gpus = tf.config.experimental.list_physical_devices('GPU')
     if gpus:
 	try:
