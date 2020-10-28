@@ -9,7 +9,7 @@ channels = 3
 
 save_model_dir = "../model"
 
-dataset_dir = "/media/arrowhead/WD21/FINAL/data_npy/train/"
+dataset_dir = "../data/train/"
 
 train_img_dir = dataset_dir + "train_img.npy"
 train_lbl_dir = dataset_dir + "train_lbl.npy"
