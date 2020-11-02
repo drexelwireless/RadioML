@@ -9,5 +9,11 @@ train_lbls = np.load(config.train_lbl_dir)
 X_train, X_valid, y_train, y_valid = train_test_split(train_img, train_lbls, test_size=0.2, random_state=42)
 print("Data Loading finished...")
 
+
+## One hot encoding! 
+
+y_train = tensorflow.keras.utils.to_categorical(y_train, 11)
+y_valid = tensorflow.keras.utils.to_categorical(y_valid, 11)
+
 train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
 valid_dataset = tf.data.Dataset.from_tensor_slices((X_valid, y_valid))
