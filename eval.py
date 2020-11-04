@@ -13,12 +13,13 @@ for mdl in models:
     wr = csv.writer(file)
     for path, i, files in os.walk(f"datasets/{encoding_scheme}"):
         if "test" in path:
-            files = sorted(files)
-            lbl = np.load(path + "/" + files[0])
-            img = np.load(path + "/" + files[1])
-            snr = path.split("/")[3]
-            ## calculating the results for each snr:
-            data = tf.data.Dataset.from_tensor_slices((img, lbl))
-            scores = model.evaluate(data, verbose=1)
-            results = [snr, scores[1]]
-            wr.writerows(results)
+            if len(files)>0:
+                files = sorted(files)
+                lbl = np.load(path + "/" + files[0])
+                img = np.load(path + "/" + files[1])
+                snr = path.split("/")[3]
+                ## calculating the results for each snr:
+                data = tf.data.Dataset.from_tensor_slices((img, lbl))
+                scores = model.evaluate(data, verbose=1)
+                results = [snr, scores[1]]
+                wr.writerows(results)
