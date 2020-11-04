@@ -7,7 +7,7 @@ models = ["model/mtf_out_out.h5","model/gadf_out_out.h5", "model/gasf_out_out.h5
 for mdl in models:
     ##loading the model
     model = tf.keras.models.load_model(mdl)
-    encoding_scheme = mdl.split("/")[2].split(".")[0]
+    encoding_scheme = mdl.split("/")[1].split(".")[0]
     file = open(encoding_scheme+".csv")
     wr = csv.writer(file)
     for path, i, files in os.walk(f"datasets/{encoding_scheme}"):
