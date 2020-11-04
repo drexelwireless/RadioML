@@ -8,7 +8,7 @@ for mdl in models:
     ##loading the model
     model = tf.keras.models.load_model(mdl)
     encoding_scheme = mdl.split("/")[1].split(".")[0]
-    file = open(encoding_scheme+".csv")
+    file = open(encoding_scheme+".csv", "w+")
     wr = csv.writer(file)
     for path, i, files in os.walk(f"datasets/{encoding_scheme}"):
         if "test" in path:
