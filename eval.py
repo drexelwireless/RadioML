@@ -1,6 +1,7 @@
 import tensorflow as tf 
 import os
 import csv
+import numpy as np
 
 models = ["model/mtf_out_out.h5","model/gadf_out_out.h5", "model/gasf_out_out.h5", "model/out_out_out.h5" ]
 
