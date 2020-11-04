@@ -21,6 +21,6 @@ for mdl in models:
                 ## calculating the results for each snr:
                 data = tf.data.Dataset.from_tensor_slices((img, lbl))
                 scores = model.evaluate(data, verbose=1)
-                results = [snr, scores[1]]
+                results_list = [snr, scores[1]]
                 print(f"{encoding_scheme} == {results}")
-                #wr.writerows(results)
+                wr.writerow(results_list)
