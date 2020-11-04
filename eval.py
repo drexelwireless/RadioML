@@ -22,4 +22,5 @@ for mdl in models:
                 data = tf.data.Dataset.from_tensor_slices((img, lbl))
                 scores = model.evaluate(data, verbose=1)
                 results = [snr, scores[1]]
-                wr.writerows(results)
+                print(results)
+                #wr.writerows(results)
