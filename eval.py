@@ -3,14 +3,15 @@ import os
 import csv
 import numpy as np
 
+
 models = ["model/mtf_out_out.h5","model/gadf_out_out.h5", "model/gasf_out_out.h5", "model/out_out_out.h5" ]
 
-for mdl in models:
+for mdl in [models[0], models[2]]:
     ##loading the model
     model = tf.keras.models.load_model(mdl)
     encoding_scheme = mdl.split("/")[1].split(".")[0]
     with open(encoding_scheme+".csv", "w") as wr:
-        wr = csv.writer(file)
+        wr = csv.writer(wr)
         for path, i, files in os.walk(f"datasets/{encoding_scheme}"):
             if "test" in path:
                 if len(files)>0:
