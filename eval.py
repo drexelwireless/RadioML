@@ -22,5 +22,5 @@ for mdl in models:
                 data = tf.data.Dataset.from_tensor_slices((img, lbl))
                 scores = model.evaluate(data, verbose=1)
                 results_list = [snr, scores[1]]
-                print(f"{encoding_scheme} == {results}")
+                print(f"{encoding_scheme} == {results_list}")
                 wr.writerow(results_list)
