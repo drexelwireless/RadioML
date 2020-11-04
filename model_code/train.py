@@ -20,9 +20,9 @@ if __name__ == '__main__':
     from res18 import resnet_v1
     model = resnet_v1(input_shape = (128, 128, 3), depth = 20 )"""
     # create model
-    model = resnet_v1(input_shape = (128, 128, 3), depth = 20)
+    model = resnet_v1(input_shape = (128, 128, 3), depth = 8)
     # define loss and optimizer
-    callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode = 'min', patience=6)
+    callback = tf.keras.callbacks.EarlyStopping(monitor='accuracy', mode = 'min', patience=2)
     model.compile(loss="categorical_crossentropy",
               optimizer=tf.keras.optimizers.RMSprop(),
               metrics=['accuracy'])

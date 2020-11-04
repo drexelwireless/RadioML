@@ -19,7 +19,7 @@ from npy_append_array import NpyAppendArray
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-Xd = pickle.load(open("../2016.04C.multisnr.pkl",'rb'), encoding='latin1')
+Xd = pickle.load(open("../RML2016.10a_dict.pkl",'rb'), encoding='latin1')
 snrs,mods = map(lambda j: sorted(list(set(map(lambda x: x[j], Xd.keys())))), [1,0])
 X = []  
 lbl = []
@@ -56,20 +56,18 @@ def run(j, folder_name):
     array = NormalizeData(X[j])
     #I = NormalizeData(I)
     #Q = NormalizeData(Q)
-    encoder1 = MTF(128, n_bins=IMG_SIZE//20, quantiles='gaussian')
-
+    encoder1 = MTF(128, n_bins=IMG_SIZE//15, quantiles='gaussian')
     rgbArray = np.zeros((1, IMG_SIZE, IMG_SIZE, 3), np.float32)
-    
     a = np.squeeze(encoder1.fit_transform(X[j]))
     r = (a.reshape(-1, 1)).reshape((2, 128, 128))[0, :] #I
-    
+
     rgbArray[..., 0] = NormalizeData(r)
     rgbArray[..., 1] = NormalizeData(np.outer(Q_, Q_))
     rgbArray[..., 2] = NormalizeData(np.outer(I_, Q_))
 
     numbr = str(j)
-    countr = int(numbr[len(numbr)-3:])  
-    if countr>580: #800 for a
+    countr = int(numbr[len(numbr)-3:])
+    if countr>800: #800 for a
         test_img.append(rgbArray)
         test_snr.append(SNR)
         test_lbl.append(one_hot_encoding(wave_type))
@@ -84,13 +82,13 @@ def main():
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     runner = partial(run, folder_name = folder_name)
     count = 0
-    for X in range(730, len(signals)+730, 730):
+    for X in range(1000, len(signals)+1000, 1000):
 	# for C dataset
 	# for a dataset -> 1000, 221000, 1000
         # runner()
         count+=1
         # print(count)
-        for i in tqdm.tqdm(range(X-730, X)):
+        for i in tqdm.tqdm(range(X-1000, X)):
             runner(i)
 
 #        for _ in tqdm.tqdm(pool.imap_unordered(runner, range(X-730, X)), total=730):
