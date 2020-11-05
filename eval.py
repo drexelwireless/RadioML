@@ -6,7 +6,8 @@ import numpy as np
 
 models = ["model/mtf_out_out.h5","model/gadf_out_out.h5", "model/gasf_out_out.h5", "model/out_out_out.h5" ]
 
-for mdl in [models[1]]:
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
+for mdl in [models[2], models[3]]:
     ##loading the model
     model = tf.keras.models.load_model(mdl)
     encoding_scheme = mdl.split("/")[1].split(".")[0]
