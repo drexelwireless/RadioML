@@ -113,6 +113,29 @@ def preprocess_gadf(iq : np.ndarray) -> np.ndarray:
                     , result[:,:,2]],
                     axis=2)
                     
+def noise(s):
+    """
+    AWGN channel
+    Add AWGN noise to input signal. The function adds AWGN noise vector to signal 's' to generate a resulting signal vector 'r' of specified SNR in dB. It also
+    returns the noise vector 'n' that is added to the signal 's' and the power spectral density N0 of noise added
+    Parameters:
+        s : input/transmitted signal vector
+        SNRdB : desired signal to noise ratio (expressed in dB) for the received signal
+        L : oversampling factor (applicable for noisy_sig simulation) default L = 1.
+    Returns:
+        r : received signal vector (r=s+n)
+    """
+    SNRdB=5
+    L=1
+    gamma = 10**(SNRdB/10) #SNR to linear scale
+    P=L*np.sum(np.sum(abs(s)**2))/len(s) # if s is a matrix [MxN]
+    N0=P/gamma # Find the noise spectral density
+    # if isrealobj(s):# check if input is real/complex object type
+    #     n = sqrt(N0/2)*standard_normal(s.shape) # computed noise
+    # # else:
+    # #     n = sqrt(N0/2)*(standard_normal(s.shape)+1j*standard_normal(s.shape))
+    # r = s + n # received signal
+    return s
 
 def preprocess_noisy_outer(iq, cfo):
     """
@@ -151,3 +174,5 @@ def preprocess_noisy_outer(iq, cfo):
     #nois = tf.convert_to_tensor(output_noisy_sig)
     result = rescale(tf.stack([tf_outer(noisy_sig[0], noisy_sig[0]), tf_outer(noisy_sig[1], noisy_sig[1]), tf_outer(noisy_sig[0], noisy_sig[1])], axis=2))    
     return result
+
+
