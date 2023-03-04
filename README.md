@@ -1,4 +1,4 @@
-# RadioML
+# `modrec` [![Python package](https://github.com/drexelwireless/RadioML/actions/workflows/python-package.yml/badge.svg)](https://github.com/drexelwireless/RadioML/actions/workflows/python-package.yml)
 
 Run the following commands after downloading the datasets from deepsig.io- 
 
