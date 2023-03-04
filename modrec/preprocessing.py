@@ -112,3 +112,42 @@ def preprocess_gadf(iq : np.ndarray) -> np.ndarray:
                     , result[:,:,1]
                     , result[:,:,2]],
                     axis=2)
+                    
+
+def preprocess_noisy_outer(iq, cfo):
+    """
+    AWGN Noise into the signal for data augmentation
+    """
+    cfo_mean = 0
+    noise_std = 0
+    noise_mean = 0
+    # if np.random.binomial(1, 1)  == 1:
+    #     cfo_std = cfo
+    # else:
+    #     cfo_std = 0
+    SNRdB= np.random.normal(scale = noise_std, loc = noise_mean)
+    normalized_freq = cfo #np.random.normal(scale = cfo_std, loc = cfo_mean)
+    L=1
+    if int(noise_std) != 0:
+        gamma = 10**(SNRdB/10) #SNR to linear scale
+
+        P=L*tf.math.reduce_sum(tf.math.reduce_sum(abs(iq)**2))/len(iq) # if s is a matrix [MxN]
+        N0=P/gamma 
+        n = tf.math.sqrt(N0/2)*(tf.random.normal(iq.shape))
+        noisy_sig = iq + n
+        noisy_sig = tf.convert_to_tensor(noisy_sig)
+    else: 
+        noisy_sig = tf.convert_to_tensor(iq)
+    ## Adding a CFO
+
+    u_i_cos = noisy_sig[0]*np.cos(2*np.pi*(normalized_freq)* np.arange(128)) # I
+    u_i_sin = noisy_sig[0]*np.sin(2*np.pi*(normalized_freq)* np.arange(128)) # I
+    
+    u_q_sin = noisy_sig[1]*np.sin(2*np.pi*(normalized_freq)* np.arange(128)) # Q
+    u_q_cos = noisy_sig[1]*np.cos(2*np.pi*(normalized_freq)* np.arange(128)) # Q
+
+    noisy_sig = tf.stack([tf.subtract(u_i_cos, u_q_sin), tf.add(u_i_sin, u_q_cos)])
+    
+    #nois = tf.convert_to_tensor(output_noisy_sig)
+    result = rescale(tf.stack([tf_outer(noisy_sig[0], noisy_sig[0]), tf_outer(noisy_sig[1], noisy_sig[1]), tf_outer(noisy_sig[0], noisy_sig[1])], axis=2))    
+    return result
