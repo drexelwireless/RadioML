@@ -14,3 +14,18 @@ Example --
 ```
 python3 bin/train.py data/2016.10a.h5 --train --model resnet18-outer --batch-size 512 
 ```
+
+### To Cite 
+```@INPROCEEDINGS{10017640,
+  author={Abbas, Adeeb and Pano, Vasil and Mainland, Geoffrey and Dandekar, Kapil},
+  booktitle={MILCOM 2022 - 2022 IEEE Military Communications Conference (MILCOM)}, 
+  title={Radio Modulation Classification Using Deep Residual Neural Networks}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={311-317},
+  doi={10.1109/MILCOM55135.2022.10017640}}
+```
+This repo also has other supporting tools like data loaders/saving it in hdf5 etc that were used during the work - https://ieeexplore.ieee.org/abstract/document/10017640/
+
+There are no active maintainers of this project. For any queries/concerns, email - adeeb@drexel.edu
